@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:listen_bloc_test/domain/dist_test/dist_test_cubit.dart';
+import 'package:listen_bloc_test/domain/list_test/list_test_cubit.dart';
 import 'package:listen_bloc_test/domain/state/counter_cubit.dart';
 
 class CounterScreen extends StatelessWidget {
@@ -10,11 +10,12 @@ class CounterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
       BlocProvider(
+        lazy: false,
         create: (context) => CounterCubit(),
       ),
       BlocProvider(
         lazy: false,
-        create: (context) => DistTestCubit(context.read<CounterCubit>()),
+        create: (context) => ListenTestCubit(context.read<CounterCubit>()),
       )
     ], child: const _CounterScreenView());
   }
@@ -28,18 +29,13 @@ class _CounterScreenView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            BlocBuilder<CounterCubit, int>(
-              builder: (context, state) {
-                return Text(state.toString());
-              },
-            ),
-          ],
+        child: BlocBuilder<CounterCubit, int>(
+          builder: (context, state) {
+            return Text(
+              state.toString(),
+              style: const TextStyle(fontSize: 20),
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(

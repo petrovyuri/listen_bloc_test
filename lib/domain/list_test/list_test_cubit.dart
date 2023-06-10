@@ -3,12 +3,11 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:listen_bloc_test/domain/state/counter_cubit.dart';
 
-
-class DistTestCubit extends Cubit<int> {
-  DistTestCubit(this.counterCubit) : super(0) {
+class ListenTestCubit extends Cubit<int> {
+  ListenTestCubit(this.counterCubit) : super(0) {
     _subscription = counterCubit.stream.distinct(
       (previous, next) {
-        return previous == next;
+        return next != 5;
       },
     ).listen((state) {
       print(state);
